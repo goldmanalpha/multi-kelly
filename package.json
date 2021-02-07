@@ -1,8 +1,26 @@
 {
+  "license": "MIT",
+  "private": "false",
   "name": "multi-kelly",
   "version": "0.1.0",
-  "private": true,
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goldmanalpha/multi-kelly"
+  },
   "dependencies": {
+    "web-vitals": "^1.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.13",
+    "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-node-resolve": "^11.1.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -10,17 +28,27 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "babel-cli": "^6.26.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.2",
-    "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
+    "rollup": "^2.38.5",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-typescript2": "^0.29.0",
+    "typescript": "^4.1.2"
+  },
+  "peerDependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "set PORT=3010&& react-scripts start",
+    "xbuild": "react-scripts build",
+    "x1 build": "rmdir /S/Q dist & set NODE_ENV=production&&  babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__",
+    "build": "rmdir /S/Q dist & set NODE_ENV=production&& rollup -c  && copy /Y package.json dist && copy /Y readme.md dist ",
+    "build2": "rmdir /S/Q dist & set NODE_ENV=production&&  rollup -c",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "x eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
