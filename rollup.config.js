@@ -14,21 +14,15 @@ const settings = {
       sourcemap: true,
       exports: 'named',
     },
-    {
-      file: packageJson.module,
-      format: 'es',
-      sourcemap: true,
-      exports: 'named',
-    },
   ],
   plugins: [
     peerDepsExternal(),
     resolve(),
+    commonjs(),
     typescript({
       rollupCommonJSResolveHack: true,
       clean: true,
     }),
-    commonjs(),
   ],
 };
 

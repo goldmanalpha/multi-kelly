@@ -43,10 +43,8 @@
   },
   "scripts": {
     "start": "set PORT=3010&& react-scripts start",
+    "build": "rmdir /S/Q dist & set NODE_ENV=production&& tsc --build \"./tsconfig.json\"",
     "xbuild": "react-scripts build",
-    "x1 build": "rmdir /S/Q dist & set NODE_ENV=production&&  babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__",
-    "build": "rmdir /S/Q dist & set NODE_ENV=production&& rollup -c  && copy /Y package.json dist && copy /Y readme.md dist ",
-    "build2": "rmdir /S/Q dist & set NODE_ENV=production&&  rollup -c",
     "test": "react-scripts test",
     "x eject": "react-scripts eject"
   },
