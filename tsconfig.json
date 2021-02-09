@@ -17,15 +17,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "declaration": true
+    "declaration": true,
+    "types": ["jest", "node"]
   },
   "include": ["src"],
-  "exclude": [
-    "node_modules",
-    "build",
-    "dist",
-    "example",
-    "rollup.config.js",
-    "src/**/*.test.ts"
-  ]
+  "exclude": ["node_modules", "build", "dist"]
 }
