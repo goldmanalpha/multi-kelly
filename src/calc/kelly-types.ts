@@ -1,11 +1,9 @@
-interface BaseOdds {
+export interface ScenarioOdds {
   /**
    * 0 - 1: 0 = no chace, 1 = certainty
    */
   probability: number;
-}
 
-export interface ScenarioOdds extends BaseOdds {
   /**
    * how much received if the scenario occurs including original principal
    * 1 = 100% gain
