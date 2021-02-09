@@ -23,4 +23,6 @@ export interface KellyResult {
    * indices represent bet amount, number represents proportionality to expected outcome
    */
   graph: number[];
+
+  expectedPayoff: number;
 }
