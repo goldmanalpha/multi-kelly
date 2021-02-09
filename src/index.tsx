@@ -1,3 +1,9 @@
-import KellyUi from './main-container';
+import Scenario from './scenario';
 
-export { KellyUi };
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+export { Scenario };
+
+ReactDOM.render(<App />, document.getElementById('root'));

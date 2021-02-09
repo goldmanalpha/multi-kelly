@@ -1,0 +1,35 @@
+.lib-styling {
+  .percent-input {
+    width: 5em;
+    input {
+      text-align: right;
+      width: 5em;
+      min-width: none;
+
+      /* get rid of number arrows */
+      /* Chrome, Safari, Edge, Opera */
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      &[type='number'] {
+        -moz-appearance: textfield;
+      }
+    }
+
+    .MuiInputAdornment-root.MuiInputAdornment-positionEnd {
+      margin-left: 0em;
+    }
+  }
+
+  .description {
+    width: 20em;
+  }
+
+  .MuiFormControl-root {
+    margin-right: 0.5em;
+  }
+}
