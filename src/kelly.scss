@@ -4,8 +4,13 @@
   }
 
   .scenarioManager {
+    display: flex;
     .add-scenario {
       color: green;
+    }
+
+    .results {
+      margin-left: 1em;
     }
   }
 

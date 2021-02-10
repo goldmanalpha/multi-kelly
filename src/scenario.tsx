@@ -23,7 +23,7 @@ const scenarioDataFields: readonly (keyof ScenarioData)[] = [
   'expectedReturnPct',
 ] as const;
 
-const numericScenarioDataFields: readonly (keyof ScenarioData)[] = [
+export const numericScenarioDataFields: readonly (keyof ScenarioData)[] = [
   'probabilityPct',
   'expectedReturnPct',
 ] as const;
@@ -31,7 +31,10 @@ const numericScenarioDataFields: readonly (keyof ScenarioData)[] = [
 export interface Props extends ScenarioData {
   useCustomStyling?: boolean;
   showErrors: boolean;
-  callback: (p: ScenarioData | null) => void;
+  updateCallback: (
+    p: ScenarioData | null,
+    field: keyof ScenarioData | null
+  ) => void;
 }
 
 const Scenario = React.memo(
@@ -42,7 +45,7 @@ const Scenario = React.memo(
     expectedReturnPct,
     useCustomStyling,
     showErrors,
-    callback,
+    updateCallback,
   }: Props) => {
     const handleChange = (
       event: React.ChangeEvent<HTMLInputElement>
@@ -56,13 +59,18 @@ const Scenario = React.memo(
           fieldName
         );
 
-        callback({
-          name,
-          description,
-          probabilityPct,
-          expectedReturnPct,
-          [fieldName]: convert ? parseFloat(value) : value,
-        });
+        updateCallback(
+          {
+            name,
+            description,
+            probabilityPct,
+            expectedReturnPct,
+            [fieldName]: convert
+              ? parseFloat(value)
+              : value,
+          },
+          fieldName
+        );
       } else {
         console.error(
           `unexpected field name: ${fieldName}`
@@ -150,7 +158,7 @@ const Scenario = React.memo(
           className="delete-scenario"
         >
           <AddCircleOutline
-            onClick={() => callback(null)}
+            onClick={() => updateCallback(null, null)}
           />
         </span>
       </div>

@@ -1,43 +1,63 @@
-import React, { useState } from 'react';
-import Scenario, { ScenarioData } from './scenario';
+import React, { useState, useEffect } from 'react';
+import Scenario, {
+  numericScenarioDataFields,
+  ScenarioData,
+} from './scenario';
 import { AddCircleOutline } from '@material-ui/icons';
 import './kelly.scss';
 import classNames from 'classnames';
-import { Button } from '@material-ui/core';
-
+import { Button, Typography } from '@material-ui/core';
+import calcKellyBetSize from './calc/kelly-calc';
+import { KellyResult } from './calc/kelly-types';
+import _ from 'lodash';
 interface Props {
+  startScenario: ScenarioData[];
   showHeader: boolean;
   useCustomStyling?: boolean;
 }
+
+const validate = (scenarios: ScenarioData[]) => {
+  const allGood = scenarios.every(
+    (s) =>
+      typeof s.probabilityPct === 'number' &&
+      typeof s.expectedReturnPct === 'number' &&
+      s.name
+  );
+
+  return allGood && scenarios.length > 0;
+};
+
 const KellyUi = ({
+  startScenario,
   showHeader,
   useCustomStyling,
 }: Props) => {
-  const [scenarios, setScenarios] = useState(
-    [] as ScenarioData[]
-  );
+  const [scenarios, setScenarios] = useState(startScenario);
 
-  const [canCalc, setCanCalc] = useState(false);
+  const [kellyResult, setKellyResult] = useState(
+    null as KellyResult | null
+  );
+  const [canCalc, setCanCalc] = useState(
+    validate(startScenario)
+  );
   const [showErrors, setShowErrors] = useState(false);
+
+  useEffect(() => {
+    if (canCalc) {
+      tryCalculate();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const addScenario = () => {
     setScenarios([...scenarios, {}]);
   };
 
-  const validate = (scenarios: ScenarioData[]) => {
-    const allGood = scenarios.every(
-      (s) =>
-        typeof s.probabilityPct === 'number' &&
-        typeof s.expectedReturnPct === 'number' &&
-        s.name
-    );
-
-    return allGood && scenarios.length > 0;
-  };
-
   const updateScenario = (
     index: number,
-    scenario: ScenarioData | null
+    scenario: ScenarioData | null,
+    updateField: keyof ScenarioData | null
   ) => {
     const [start, end] = [
       [...scenarios.slice(0, index)],
@@ -49,10 +69,23 @@ const KellyUi = ({
 
     setScenarios(newScenarios);
     setCanCalc(validate(newScenarios));
+
+    if (numericScenarioDataFields.includes(updateField!)) {
+      setKellyResult(null);
+    }
   };
 
   const tryCalculate = () => {
     if (canCalc) {
+      const newKellyResult = calcKellyBetSize(
+        scenarios.map((s) => ({
+          probability: s.probabilityPct! / 100,
+          payoffReturn: s.expectedReturnPct! / 100,
+        }))
+      );
+
+      setKellyResult(newKellyResult);
+
       setShowErrors(false);
     } else {
       setShowErrors(true);
@@ -86,6 +119,21 @@ const KellyUi = ({
         >
           Calculate
         </Button>
+        {kellyResult && (
+          <div className="results">
+            <Typography>
+              kelly bet percent: {kellyResult.betPct}
+            </Typography>
+            <Typography>
+              expected return:{' '}
+              {_.round(
+                100 * (kellyResult.expectedPayoff - 1),
+                1
+              )}
+              %
+            </Typography>
+          </div>
+        )}
       </div>
 
       <ol className="scenarios-container">
@@ -94,7 +142,7 @@ const KellyUi = ({
             <Scenario
               {...s}
               showErrors={showErrors}
-              callback={updateScenario.bind(this, i)}
+              updateCallback={updateScenario.bind(this, i)}
             />
           </li>
         ))}
