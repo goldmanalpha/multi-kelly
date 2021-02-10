@@ -1,8 +1,8 @@
 import React from 'react';
-import Scenario from './scenario';
+import KellyUi from './kellyUi';
 
 const App = () => {
-  return <Scenario />;
+  return <KellyUi showHeader={true} />;
 };
 
 export default App;

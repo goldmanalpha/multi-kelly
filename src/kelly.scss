@@ -1,4 +1,18 @@
-.lib-styling {
+.kelly-ui.lib-styling {
+  li {
+    list-style: none;
+  }
+
+  .scenarioManager {
+    .add-scenario {
+      color: green;
+    }
+  }
+}
+
+.scenario.lib-styling {
+  display: flex;
+
   .percent-input {
     width: 5em;
     input {
@@ -31,5 +45,13 @@
 
   .MuiFormControl-root {
     margin-right: 0.5em;
+  }
+
+  .delete-scenario {
+    align-self: flex-end;
+    svg {
+      color: red;
+      transform: rotate(45deg);
+    }
   }
 }
