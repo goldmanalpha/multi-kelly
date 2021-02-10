@@ -3,6 +3,7 @@ import Scenario, { ScenarioData } from './scenario';
 import { AddCircleOutline } from '@material-ui/icons';
 import './kelly.scss';
 import classNames from 'classnames';
+import { Button } from '@material-ui/core';
 
 interface Props {
   showHeader: boolean;
@@ -16,25 +17,45 @@ const KellyUi = ({
     [] as ScenarioData[]
   );
 
+  const [canCalc, setCanCalc] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
+
   const addScenario = () => {
     setScenarios([...scenarios, {}]);
+  };
+
+  const validate = (scenarios: ScenarioData[]) => {
+    const allGood = scenarios.every(
+      (s) =>
+        typeof s.probabilityPct === 'number' &&
+        typeof s.expectedReturnPct === 'number' &&
+        s.name
+    );
+
+    return allGood && scenarios.length > 0;
   };
 
   const updateScenario = (
     index: number,
     scenario: ScenarioData | null
   ) => {
-    if (scenario) {
-      setScenarios([
-        ...scenarios.slice(0, index),
-        scenario,
-        ...scenarios.slice(index + 1),
-      ]);
+    const [start, end] = [
+      [...scenarios.slice(0, index)],
+      [...scenarios.slice(index + 1)],
+    ];
+    const newScenarios = scenario
+      ? [...start, scenario, ...end]
+      : [...start, ...end];
+
+    setScenarios(newScenarios);
+    setCanCalc(validate(newScenarios));
+  };
+
+  const tryCalculate = () => {
+    if (canCalc) {
+      setShowErrors(false);
     } else {
-      setScenarios([
-        ...scenarios.slice(0, index),
-        ...scenarios.slice(index + 1),
-      ]);
+      setShowErrors(true);
     }
   };
 
@@ -51,6 +72,20 @@ const KellyUi = ({
         <span title="add scenario" className="add-scenario">
           <AddCircleOutline onClick={addScenario} />
         </span>
+        <Button
+          variant="outlined"
+          onClick={tryCalculate}
+          color={canCalc ? 'primary' : 'secondary'}
+          title={
+            canCalc
+              ? 'ready'
+              : `fix scenarios. ${
+                  showErrors ? '' : ' click to see errors'
+                }`
+          }
+        >
+          Calculate
+        </Button>
       </div>
 
       <ol className="scenarios-container">
@@ -58,6 +93,7 @@ const KellyUi = ({
           <li key={i}>
             <Scenario
               {...s}
+              showErrors={showErrors}
               callback={updateScenario.bind(this, i)}
             />
           </li>

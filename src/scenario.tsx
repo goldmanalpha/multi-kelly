@@ -4,7 +4,6 @@ import {
   InputAdornment,
   InputLabel,
   TextField,
-  Tooltip,
 } from '@material-ui/core';
 import classNames from 'classnames';
 import React from 'react';
@@ -31,6 +30,7 @@ const numericScenarioDataFields: readonly (keyof ScenarioData)[] = [
 
 export interface Props extends ScenarioData {
   useCustomStyling?: boolean;
+  showErrors: boolean;
   callback: (p: ScenarioData | null) => void;
 }
 
@@ -41,6 +41,7 @@ const Scenario = React.memo(
     probabilityPct,
     expectedReturnPct,
     useCustomStyling,
+    showErrors,
     callback,
   }: Props) => {
     const handleChange = (
@@ -68,6 +69,11 @@ const Scenario = React.memo(
         );
       }
     };
+    const expectedReturnPctError =
+      showErrors && typeof expectedReturnPct !== 'number';
+
+    const probabilityPctError =
+      showErrors && typeof probabilityPct !== 'number';
 
     return (
       <div
@@ -76,36 +82,41 @@ const Scenario = React.memo(
         })}
       >
         <FormControl>
-          <Tooltip title="likelihood of occurence from 0 - 100">
-            <span>
-              <InputLabel htmlFor="pct-probility">
-                Prob Pct
-              </InputLabel>
-              <Input
-                name="probabilityPct"
-                className="percent-input"
-                required
-                type="number"
-                value={probabilityPct || ''}
-                onChange={handleChange}
-                endAdornment={
-                  <InputAdornment position="end">
-                    %
-                  </InputAdornment>
-                }
-              />
-            </span>
-          </Tooltip>
+          <span title="likelihood of occurence from 0 - 100">
+            <InputLabel
+              htmlFor="pct-probility"
+              error={probabilityPctError}
+            >
+              Prob Pct*
+            </InputLabel>
+            <Input
+              name="probabilityPct"
+              className="percent-input"
+              required
+              type="number"
+              value={probabilityPct || ''}
+              error={probabilityPctError}
+              onChange={handleChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  %
+                </InputAdornment>
+              }
+            />
+          </span>
         </FormControl>
         <FormControl>
           <span title="Expected Payoff Pct: gain/loss expected for this scenario&#10;100 = doubling/getting back amount bet twice.&#10;0 = no gain/loss -- just return of amount bet&#10;-100 = losing amount bet.">
-            <InputLabel>Exp Gain</InputLabel>
+            <InputLabel error={expectedReturnPctError}>
+              Exp Gain*
+            </InputLabel>
             <Input
               name="expectedReturnPct"
               className="percent-input"
               required
               type="number"
               value={expectedReturnPct || ''}
+              error={expectedReturnPctError}
               onChange={handleChange}
               endAdornment={
                 <InputAdornment position="end">
@@ -121,6 +132,10 @@ const Scenario = React.memo(
           name="name"
           required
           value={name || ''}
+          error={
+            showErrors &&
+            (typeof name !== 'string' || !name.trim())
+          }
           onChange={handleChange}
         />
         <TextField
