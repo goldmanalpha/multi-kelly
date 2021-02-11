@@ -1,4 +1,4 @@
-.kelly-ui.lib-styling {
+.kelly-editor.lib-styling {
   li {
     list-style: none;
   }
@@ -16,6 +16,14 @@
 
   button {
     margin-left: 1em;
+  }
+
+  .results {
+    display: flex;
+
+    button {
+      margin-right: 1em;
+    }
   }
 }
 

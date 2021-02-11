@@ -119,7 +119,7 @@ const KellyEditor = ({
 
   return (
     <div
-      className={classNames('kelly-ui', {
+      className={classNames('kelly-editor', {
         'lib-styling': !useCustomStyling,
       })}
     >
@@ -147,19 +147,27 @@ const KellyEditor = ({
         {kellyResult && (
           <div className="results">
             {saveCallback && (
-              <Button onClick={handleSave}>Save</Button>
+              <Button
+                onClick={handleSave}
+                variant="outlined"
+                color="primary"
+              >
+                Save
+              </Button>
             )}
-            <Typography>
-              kelly bet percent: {kellyResult.betPct}
-            </Typography>
-            <Typography>
-              expected return:{' '}
-              {_.round(
-                100 * (kellyResult.expectedPayoff - 1),
-                1
-              )}
-              %
-            </Typography>
+            <div>
+              <Typography>
+                kelly bet percent: {kellyResult.betPct}
+              </Typography>
+              <Typography>
+                expected return:{' '}
+                {_.round(
+                  100 * (kellyResult.expectedPayoff - 1),
+                  1
+                )}
+                %
+              </Typography>
+            </div>
           </div>
         )}
       </div>
