@@ -19,6 +19,12 @@
   }
 }
 
+.scenario-chooser-list.lib-styling {
+  & > table {
+    max-width: 12em;
+  }
+}
+
 .scenario.lib-styling {
   display: flex;
 

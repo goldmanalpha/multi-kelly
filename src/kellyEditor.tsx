@@ -10,10 +10,15 @@ import { Button, Typography } from '@material-ui/core';
 import calcKellyBetSize from './calc/kelly-calc';
 import { KellyResult } from './calc/kelly-types';
 import _ from 'lodash';
+import { replaceItem } from './utility';
+import { ScenarioSummary } from './scenario-chooser';
 interface Props {
   startScenario: ScenarioData[];
   showHeader: boolean;
   useCustomStyling?: boolean;
+  saveCallback?: (
+    summary: Omit<ScenarioSummary, 'title'>
+  ) => void;
 }
 
 const validate = (scenarios: ScenarioData[]) => {
@@ -27,10 +32,11 @@ const validate = (scenarios: ScenarioData[]) => {
   return allGood && scenarios.length > 0;
 };
 
-const KellyUi = ({
+const KellyEditor = ({
   startScenario,
   showHeader,
   useCustomStyling,
+  saveCallback,
 }: Props) => {
   const [scenarios, setScenarios] = useState(startScenario);
 
@@ -41,6 +47,10 @@ const KellyUi = ({
     validate(startScenario)
   );
   const [showErrors, setShowErrors] = useState(false);
+
+  useEffect(() => {
+    setScenarios(startScenario);
+  }, [startScenario]);
 
   useEffect(() => {
     if (canCalc) {
@@ -59,13 +69,11 @@ const KellyUi = ({
     scenario: ScenarioData | null,
     updateField: keyof ScenarioData | null
   ) => {
-    const [start, end] = [
-      [...scenarios.slice(0, index)],
-      [...scenarios.slice(index + 1)],
-    ];
-    const newScenarios = scenario
-      ? [...start, scenario, ...end]
-      : [...start, ...end];
+    const newScenarios = replaceItem(
+      scenarios,
+      index,
+      scenario
+    );
 
     setScenarios(newScenarios);
     setCanCalc(validate(newScenarios));
@@ -90,6 +98,13 @@ const KellyUi = ({
     } else {
       setShowErrors(true);
     }
+  };
+
+  const handleSave = () => {
+    saveCallback!({
+      ...kellyResult,
+      scenarioDetails: scenarios,
+    });
   };
 
   return (
@@ -121,6 +136,9 @@ const KellyUi = ({
         </Button>
         {kellyResult && (
           <div className="results">
+            {saveCallback && (
+              <Button onClick={handleSave}>Save</Button>
+            )}
             <Typography>
               kelly bet percent: {kellyResult.betPct}
             </Typography>
@@ -151,4 +169,4 @@ const KellyUi = ({
   );
 };
 
-export default KellyUi;
+export default KellyEditor;
