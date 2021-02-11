@@ -11,5 +11,3 @@ widget for calculating and visualizing kelly criterion results for bets with mul
 file names kebab
 
 ## Todo / Roadmap
-
-rename test-lib -> storybook

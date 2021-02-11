@@ -68,6 +68,7 @@ const KellyEditor = ({
 
   const addScenario = () => {
     setScenarios([...scenarios, {}]);
+    setKellyResult(null);
   };
 
   const updateScenario = (
@@ -84,7 +85,10 @@ const KellyEditor = ({
     setScenarios(newScenarios);
     setCanCalc(validate(newScenarios));
 
-    if (numericScenarioDataFields.includes(updateField!)) {
+    if (
+      numericScenarioDataFields.includes(updateField!) ||
+      scenario === null
+    ) {
       setKellyResult(null);
     }
   };
