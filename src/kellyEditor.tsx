@@ -48,8 +48,14 @@ const KellyEditor = ({
   );
   const [showErrors, setShowErrors] = useState(false);
 
+  const [startCount, setStartCount] = useState(0);
+
   useEffect(() => {
     setScenarios(startScenario);
+    const canCalc = validate(startScenario);
+    setCanCalc(canCalc);
+    setStartCount(startCount + 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startScenario]);
 
   useEffect(() => {
@@ -58,7 +64,7 @@ const KellyEditor = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [startCount]);
 
   const addScenario = () => {
     setScenarios([...scenarios, {}]);
