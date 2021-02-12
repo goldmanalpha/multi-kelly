@@ -9,3 +9,7 @@ widget for calculating and visualizing kelly criterion results for bets with mul
 ### except
 
 file names kebab
+
+## Todo / Roadmap
+
+save doesn't work
