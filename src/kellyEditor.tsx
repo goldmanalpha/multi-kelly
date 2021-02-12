@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Scenario, {
+import ScenarioDetail, {
   numericScenarioDataFields,
   ScenarioData,
-} from './scenario';
+} from './scenario-detail';
 import { AddCircleOutline } from '@material-ui/icons';
 import './kelly.scss';
 import classNames from 'classnames';
@@ -21,6 +21,11 @@ interface Props {
   ) => void;
 }
 
+const getTotalProbabilityPct = (
+  scenarios: ScenarioData[]
+) =>
+  _.sum(scenarios.map((s) => s.probabilityPct || 0)) || 0;
+
 const validate = (scenarios: ScenarioData[]) => {
   const allGood = scenarios.every(
     (s) =>
@@ -29,7 +34,11 @@ const validate = (scenarios: ScenarioData[]) => {
       s.name
   );
 
-  return allGood && scenarios.length > 0;
+  return (
+    allGood &&
+    scenarios.length > 0 &&
+    getTotalProbabilityPct(scenarios) === 100
+  );
 };
 
 const KellyEditor = ({
@@ -55,6 +64,7 @@ const KellyEditor = ({
     const canCalc = validate(startScenario);
     setCanCalc(canCalc);
     setStartCount(startCount + 1);
+    setKellyResult(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startScenario]);
 
@@ -64,7 +74,7 @@ const KellyEditor = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startCount]);
+  }, [startCount, canCalc]);
 
   const addScenario = () => {
     setScenarios([...scenarios, {}]);
@@ -117,6 +127,10 @@ const KellyEditor = ({
     });
   };
 
+  const totalProbabilityPct = getTotalProbabilityPct(
+    scenarios
+  );
+
   return (
     <div
       className={classNames('kelly-editor', {
@@ -144,6 +158,12 @@ const KellyEditor = ({
         >
           Calculate
         </Button>
+        {totalProbabilityPct !== 100 && (
+          <Typography color="secondary">
+            total probability should be 100% but is{' '}
+            {totalProbabilityPct}%
+          </Typography>
+        )}
         {kellyResult && (
           <div className="results">
             {saveCallback && (
@@ -175,7 +195,7 @@ const KellyEditor = ({
       <ol className="scenarios-container">
         {scenarios.map((s, i) => (
           <li key={i}>
-            <Scenario
+            <ScenarioDetail
               {...s}
               showErrors={showErrors}
               updateCallback={updateScenario.bind(this, i)}

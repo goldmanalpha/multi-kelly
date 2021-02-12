@@ -8,14 +8,11 @@
     .add-scenario {
       color: green;
     }
-
-    .results {
-      margin-left: 1em;
-    }
   }
 
   button {
     margin-left: 1em;
+    margin-right: 1em;
   }
 
   .results {
@@ -29,7 +26,7 @@
 
 .scenario-chooser-list.lib-styling {
   & > table {
-    max-width: 12em;
+    max-width: 65em;
   }
 }
 

@@ -8,7 +8,7 @@ import {
   TableRow,
 } from '@material-ui/core';
 import React, { useState } from 'react';
-import { ScenarioData } from './scenario';
+import { ScenarioData } from './scenario-detail';
 
 export interface ScenarioSummary {
   title: string;

@@ -37,7 +37,7 @@ export interface Props extends ScenarioData {
   ) => void;
 }
 
-const Scenario = React.memo(
+const ScenarioDetail = React.memo(
   ({
     name,
     description,
@@ -83,6 +83,8 @@ const Scenario = React.memo(
     const probabilityPctError =
       showErrors && typeof probabilityPct !== 'number';
 
+    const numOrBlank = (n: number | undefined) =>
+      typeof n === 'number' ? n : '';
     return (
       <div
         className={classNames('scenario', {
@@ -102,7 +104,7 @@ const Scenario = React.memo(
               className="percent-input"
               required
               type="number"
-              value={probabilityPct || ''}
+              value={numOrBlank(probabilityPct)}
               error={probabilityPctError}
               onChange={handleChange}
               endAdornment={
@@ -123,7 +125,7 @@ const Scenario = React.memo(
               className="percent-input"
               required
               type="number"
-              value={expectedReturnPct || ''}
+              value={numOrBlank(expectedReturnPct)}
               error={expectedReturnPctError}
               onChange={handleChange}
               endAdornment={
@@ -166,4 +168,4 @@ const Scenario = React.memo(
   }
 );
 
-export default Scenario;
+export default ScenarioDetail;
