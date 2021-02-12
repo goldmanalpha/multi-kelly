@@ -47,8 +47,8 @@
   "scripts": {
     "start": "set PORT=3010&& react-scripts start",
     "watch": "watch \"yarn  build\" ./src ",
-    "build": "set NODE_ENV=production&& tsc -build tsconfig.build.json && copy /Y package.json dist && copy /Y readme.md dist",
-    "build-linux": "NODE_ENV=production&& tsc -build tsconfig.build.json && cp -f package.json dist && cp -f readme.md dist",
+    "build": "set NODE_ENV=production&& tsc -build tsconfig.build.json && copy /Y package.json dist && copy /Y README.md dist",
+    "build-linux": "NODE_ENV=production&& tsc -build tsconfig.build.json && cp -f package.json dist && cp -f README.md dist",
     "todo": "rmdir /S/Q dist & ",
     "xbuild": "react-scripts build",
     "test": "react-scripts test",
