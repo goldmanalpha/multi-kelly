@@ -10,6 +10,7 @@ import React from 'react';
 
 import { AddCircleOutline } from '@material-ui/icons';
 import _ from 'lodash';
+import { InputPercent } from './mui/adorned-input';
 
 export interface ScenarioData {
   name?: string;
@@ -92,30 +93,19 @@ const ScenarioDetail = React.memo(
           'lib-styling': !useCustomStyling,
         })}
       >
-        <FormControl>
-          <span title="likelihood of occurence from 0 - 100">
-            <InputLabel
-              htmlFor="pct-probility"
-              error={probabilityPctError}
-            >
-              Prob Pct*
-            </InputLabel>
-            <Input
-              name="probabilityPct"
-              className="percent-input"
-              required
-              type="number"
-              value={numOrBlank(probabilityPct)}
-              error={probabilityPctError}
-              onChange={handleChange}
-              endAdornment={
-                <InputAdornment position="end">
-                  %
-                </InputAdornment>
-              }
-            />
-          </span>
-        </FormControl>
+        <InputPercent
+          title="likelihood of occurence from 0 - 100"
+          label="Prob Pct*"
+          labelProps={{ error: probabilityPctError }}
+          inputProps={{
+            name: 'probabilityPct',
+            className: 'percent-input',
+            required: true,
+            value: numOrBlank(probabilityPct),
+            error: probabilityPctError,
+            onChange: handleChange,
+          }}
+        />
         <FormControl>
           <span title="Expected Payoff Pct: gain/loss expected for this scenario&#10;100 = doubling/getting back amount bet twice.&#10;0 = no gain/loss -- just return of amount bet&#10;-100 = losing amount bet.">
             <InputLabel error={expectedReturnPctError}>
