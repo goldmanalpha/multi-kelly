@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import KellyEditor from './kellyEditor';
+import KellyEditor from './kelly-editor';
 import { sampleScenarioSummaries } from './sample-data';
 import ScenarioChooser, {
   ScenarioSummary,
