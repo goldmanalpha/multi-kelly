@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { AddCircleOutline } from '@material-ui/icons';
+import _ from 'lodash';
 
 export interface ScenarioData {
   name?: string;
@@ -84,7 +85,7 @@ const ScenarioDetail = React.memo(
       showErrors && typeof probabilityPct !== 'number';
 
     const numOrBlank = (n: number | undefined) =>
-      typeof n === 'number' ? n : '';
+      typeof n === 'number' ? _.round(n, 1) : '';
     return (
       <div
         className={classNames('scenario', {

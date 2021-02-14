@@ -14,7 +14,7 @@ import { replaceItem } from './utility';
 import { ScenarioSummary } from './scenario-chooser';
 interface Props {
   startScenario: ScenarioData[];
-  showHeader: boolean;
+  showHeader?: boolean;
   useCustomStyling?: boolean;
   saveCallback?: (
     summary: Omit<ScenarioSummary, 'title'>
@@ -25,6 +25,9 @@ const getTotalProbabilityPct = (
   scenarios: ScenarioData[]
 ) =>
   _.sum(scenarios.map((s) => s.probabilityPct || 0)) || 0;
+
+const validateSum100Pct = (scenarios: ScenarioData[]) =>
+  Math.abs(getTotalProbabilityPct(scenarios) - 100) < 0.01;
 
 const validate = (scenarios: ScenarioData[]) => {
   const allGood = scenarios.every(
@@ -37,7 +40,7 @@ const validate = (scenarios: ScenarioData[]) => {
   return (
     allGood &&
     scenarios.length > 0 &&
-    getTotalProbabilityPct(scenarios) === 100
+    validateSum100Pct(scenarios)
   );
 };
 
@@ -158,10 +161,10 @@ const KellyEditor = ({
         >
           Calculate
         </Button>
-        {totalProbabilityPct !== 100 && (
+        {!validateSum100Pct(scenarios) && (
           <Typography color="secondary">
             total probability should be 100% but is{' '}
-            {totalProbabilityPct}%
+            {_.round(totalProbabilityPct, 2)}%
           </Typography>
         )}
         {kellyResult && (
