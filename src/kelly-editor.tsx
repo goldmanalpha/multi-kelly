@@ -180,7 +180,7 @@ const KellyEditor = ({
             )}
             <div>
               <Typography>
-                kelly bet percent: {kellyResult.betPct}
+                kelly bet size: {kellyResult.betPct}%
               </Typography>
               <Typography>
                 expected return:{' '}
