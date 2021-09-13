@@ -12,6 +12,12 @@ import { KellyResult } from './calc/kelly-types';
 import _ from 'lodash';
 import { replaceItem } from './utility';
 import { ScenarioSummary } from './scenario-chooser';
+
+require('react-dom');
+const w = window as any;
+w.React2 = require('react');
+console.log('React Compare', w.React1 === w.React2);
+
 interface Props {
   startScenario: ScenarioData[];
   showHeader?: boolean;
@@ -130,9 +136,8 @@ const KellyEditor = ({
     });
   };
 
-  const totalProbabilityPct = getTotalProbabilityPct(
-    scenarios
-  );
+  const totalProbabilityPct =
+    getTotalProbabilityPct(scenarios);
 
   return (
     <div
@@ -163,8 +168,12 @@ const KellyEditor = ({
         </Button>
         {!validateSum100Pct(scenarios) && (
           <Typography color="secondary">
-            total probability should be 100% but is{' '}
-            {_.round(totalProbabilityPct, 2)}%
+            Total probability should be 100% but is
+            {_.round(totalProbabilityPct, 2)}%.{' '}
+            <div>
+              Can't calculate. Please update the
+              probabilities.
+            </div>
           </Typography>
         )}
         {kellyResult && (

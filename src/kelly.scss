@@ -75,3 +75,7 @@
     }
   }
 }
+
+.outer-container > tr:hover {
+  background-color: lightgreen !important;
+}

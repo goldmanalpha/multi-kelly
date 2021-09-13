@@ -6,6 +6,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Button,
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import { ScenarioData } from './scenario-detail';
@@ -20,9 +21,8 @@ export interface ScenarioSummary {
 interface Props {
   summaries: ScenarioSummary[];
 
-  selectedCallback: (
-    scenarioSummary: number | null
-  ) => void;
+  selectedCallback: (scenarioSummary: number) => void;
+  selectedIndex: number;
 }
 
 const scenarioDetailsUi = (data: ScenarioData[]) => {
@@ -63,57 +63,107 @@ const scenarioDetailsUi = (data: ScenarioData[]) => {
 const ScenarioChooser = ({
   summaries,
   selectedCallback,
+  selectedIndex,
 }: Props) => {
-  const [selectedIdx, setSelectedIdx] = useState(
-    null as number | null
-  );
+  const [isSelecting, setIsSelecting] = useState(false);
 
   const handleClick = (index: number) => {
-    const selecting = index !== selectedIdx;
-    const value = selecting ? index : null;
-    setSelectedIdx(value);
-    selectedCallback(value);
+    setIsSelecting(false);
+    selectedCallback(index);
+  };
+
+  const toggleSelecting = () => {
+    setIsSelecting((s) => !s);
+  };
+
+  const SingleSummaryUi = ({
+    index,
+  }: {
+    index: number | null;
+  }) => {
+    const summary = summaries[index || 0];
+    return (
+      <>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={toggleSelecting}
+          disabled={isSelecting}
+        >
+          Select a scenario
+        </Button>
+
+        {index !== null && !isSelecting && (
+          <TableContainer
+            component={Paper}
+            className="lib-styling scenario-chooser-list"
+          >
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>scenarios</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow
+                  key={index}
+                  onClick={() => handleClick(index)}
+                >
+                  <TableCell component="th" scope="row">
+                    {summary.title}
+                  </TableCell>
+                  <TableCell>
+                    {scenarioDetailsUi(
+                      summary.scenarioDetails
+                    )}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+      </>
+    );
   };
 
   return (
-    <TableContainer
-      component={Paper}
-      className="lib-styling scenario-chooser-list"
-    >
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell title="kelly bet percent">
-              Bet Pct
-            </TableCell>
-            <TableCell title="expected payoff">
-              Exp
-            </TableCell>
-            <TableCell>scenarios</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {summaries.map((sum, i) => (
-            <TableRow
-              key={i}
-              onClick={() => handleClick(i)}
-              selected={selectedIdx === i}
-            >
-              <TableCell component="th" scope="row">
-                {sum.title}
-              </TableCell>
-              <TableCell>{sum.betPct}</TableCell>
-              <TableCell>{sum.expectedPayoff}</TableCell>
+    <>
+      <SingleSummaryUi index={selectedIndex} />
 
-              <TableCell>
-                {scenarioDetailsUi(sum.scenarioDetails)}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      {isSelecting && (
+        <TableContainer
+          component={Paper}
+          className="lib-styling scenario-chooser-list"
+        >
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>scenarios</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody className="outer-container">
+              {summaries.map((sum, i) => (
+                <TableRow
+                  key={i}
+                  onClick={() => handleClick(i)}
+                  selected={(selectedIndex || 0) === i}
+                >
+                  <TableCell component="th" scope="row">
+                    {sum.title}
+                  </TableCell>
+
+                  <TableCell>
+                    {scenarioDetailsUi(sum.scenarioDetails)}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </>
   );
 };
 
