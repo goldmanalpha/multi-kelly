@@ -12,9 +12,15 @@ import { KellyResult } from './calc/kelly-types';
 import _ from 'lodash';
 import { replaceItem } from './utility';
 import { ScenarioSummary } from './scenario-chooser';
+
+require('react-dom');
+const w = window as any;
+w.React2 = require('react');
+console.log('React Compare', w.React1 === w.React2);
+
 interface Props {
   startScenario: ScenarioData[];
-  showHeader: boolean;
+  showHeader?: boolean;
   useCustomStyling?: boolean;
   saveCallback?: (
     summary: Omit<ScenarioSummary, 'title'>
@@ -25,6 +31,9 @@ const getTotalProbabilityPct = (
   scenarios: ScenarioData[]
 ) =>
   _.sum(scenarios.map((s) => s.probabilityPct || 0)) || 0;
+
+const validateSum100Pct = (scenarios: ScenarioData[]) =>
+  Math.abs(getTotalProbabilityPct(scenarios) - 100) < 0.01;
 
 const validate = (scenarios: ScenarioData[]) => {
   const allGood = scenarios.every(
@@ -37,7 +46,7 @@ const validate = (scenarios: ScenarioData[]) => {
   return (
     allGood &&
     scenarios.length > 0 &&
-    getTotalProbabilityPct(scenarios) === 100
+    validateSum100Pct(scenarios)
   );
 };
 
@@ -127,9 +136,8 @@ const KellyEditor = ({
     });
   };
 
-  const totalProbabilityPct = getTotalProbabilityPct(
-    scenarios
-  );
+  const totalProbabilityPct =
+    getTotalProbabilityPct(scenarios);
 
   return (
     <div
@@ -158,10 +166,14 @@ const KellyEditor = ({
         >
           Calculate
         </Button>
-        {totalProbabilityPct !== 100 && (
+        {!validateSum100Pct(scenarios) && (
           <Typography color="secondary">
-            total probability should be 100% but is{' '}
-            {totalProbabilityPct}%
+            Total probability should be 100% but is
+            {_.round(totalProbabilityPct, 2)}%.{' '}
+            <div>
+              Can't calculate. Please update the
+              probabilities.
+            </div>
           </Typography>
         )}
         {kellyResult && (
@@ -177,7 +189,7 @@ const KellyEditor = ({
             )}
             <div>
               <Typography>
-                kelly bet percent: {kellyResult.betPct}
+                kelly bet size: {kellyResult.betPct}%
               </Typography>
               <Typography>
                 expected return:{' '}

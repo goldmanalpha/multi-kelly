@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import KellyEditor from './kellyEditor';
+import React, { useEffect, useState } from 'react';
+import KellyEditor from './kelly-editor';
 import { sampleScenarioSummaries } from './sample-data';
 import ScenarioChooser, {
   ScenarioSummary,
@@ -11,14 +11,14 @@ const App = () => {
     sampleScenarioSummaries
   );
 
-  const [
-    selectedSummaryIdx,
-    setSelectedSummaryIdx,
-  ] = useState(null as number | null);
+  const [selectedSummaryIdx, setSelectedSummaryIdx] =
+    useState(0);
 
-  const handleScenarioSelection = (
-    index: number | null
-  ) => {
+  useEffect(() => {
+    document.title = 'MultiKelly';
+  }, []);
+
+  const handleScenarioSelection = (index: number) => {
     setSelectedSummaryIdx(index);
   };
 
@@ -50,17 +50,14 @@ const App = () => {
   };
 
   const startScenario =
-    selectedSummaryIdx !== null
-      ? summaries[selectedSummaryIdx].scenarioDetails
-      : [];
-
+    summaries[selectedSummaryIdx].scenarioDetails;
   return (
     <div>
       <ScenarioChooser
         summaries={summaries}
         selectedCallback={handleScenarioSelection}
+        selectedIndex={selectedSummaryIdx}
       />
-
       <KellyEditor
         showHeader={true}
         startScenario={startScenario}
