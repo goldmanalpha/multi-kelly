@@ -1,4 +1,8 @@
-import { fireEvent, render } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  RenderResult,
+} from '@testing-library/react';
 import KellyEditor from './kelly-editor';
 import React from 'react';
 
@@ -21,17 +25,20 @@ const testData = () => ({
 
 const titleText = 'Multi Kelly Criterion Calculator';
 
-const renderIt = () =>
-  render(
+let lastRenderResult: RenderResult;
+
+const renderIt = (useCallback: boolean = false) =>
+  (lastRenderResult = render(
     <KellyEditor
       startScenarioOutcomes={testData().scenarioOutcomes}
+      saveCallback={useCallback ? () => {} : undefined}
     />
-  );
+  ));
 
 describe('kelly editor', () => {
-  it('renders / displays submitted scenario', () => {
+  const simpleDisplay = (useCallback: boolean) => {
     const { getByText, getByDisplayValue, container } =
-      renderIt();
+      renderIt(useCallback);
 
     const title = getByText(titleText);
 
@@ -56,57 +63,87 @@ describe('kelly editor', () => {
     });
 
     expect(elementTests).toBe(6);
+  };
+  it('renders / displays submitted scenario -- without save button', () => {
+    simpleDisplay(false);
 
-    expect(container).toMatchSnapshot();
+    expect(lastRenderResult.queryByText('Save')).toBeNull();
+    expect(lastRenderResult.container).toMatchSnapshot();
   });
 
-  it("shows error when percentages don't add to 100", () => {
-    const expectedError =
-      "Total probability should be 100% but is 99%. Can't calculate. Please update the probabilities.";
-    const { getByText, getByDisplayValue } = renderIt();
+  it('renders / displays submitted scenario -- with save button', () => {
+    simpleDisplay(true);
 
-    const inputProbability = getByDisplayValue('22');
-
-    fireEvent.change(inputProbability, {
-      target: { value: '21' },
-    });
-
-    expect(getByText(expectedError)).toBeVisible();
+    expect(
+      lastRenderResult.queryByText('Save')
+    ).toBeDefined();
+    expect(lastRenderResult.container).toMatchSnapshot();
   });
 
-  it('shows error when name is missing', () => {
-    const expectedError =
-      'Outcome name is required, please enter a value.';
+  const errorChecks = (
+    modifier: string = '',
+    it: (name: string, fn: () => void) => void = global.it
+  ) =>
+    describe(`errors ${modifier}`, () => {
+      it("shows error when percentages don't add to 100", () => {
+        const expectedError =
+          "Total probability should be 100% but is 99%. Can't calculate. Please update the probabilities.";
+        const { getByText, getByDisplayValue } = renderIt();
 
-    const { getByText, getByDisplayValue } = renderIt();
+        const inputProbability = getByDisplayValue('22');
 
-    const name = getByDisplayValue('test: heads');
+        fireEvent.change(inputProbability, {
+          target: { value: '21' },
+        });
 
-    fireEvent.change(name, {
-      target: { value: '' },
+        expect(getByText(expectedError)).toBeVisible();
+      });
+
+      it('shows error when name is missing', () => {
+        const expectedError =
+          'Outcome name is required, please enter a value.';
+
+        const { getByText, getByDisplayValue } = renderIt();
+
+        const name = getByDisplayValue('test: heads');
+
+        fireEvent.change(name, {
+          target: { value: '' },
+        });
+
+        expect(getByText(expectedError)).toBeVisible();
+      });
+
+      it('shows both name and percent errors', () => {
+        const expectedError =
+          "Total probability should be 100% but is 99%. Can't calculate. Please update the probabilities. Outcome name is required, please enter a value.";
+        const { getByText, getByDisplayValue } = renderIt();
+
+        const name = getByDisplayValue('test: heads');
+
+        fireEvent.change(name, {
+          target: { value: '' },
+        });
+        const inputProbability = getByDisplayValue('22');
+
+        fireEvent.change(inputProbability, {
+          target: { value: '21' },
+        });
+      });
     });
 
-    expect(getByText(expectedError)).toBeVisible();
-  });
+  // errorChecks(
+  //   'set save button disabled',
+  //   (name: string, fun: Function) => {
+  //     it(`${name}`, () => {
+  //       fun();
 
-  it('shows both name and percent errors', () => {
-    const expectedError =
-      "Total probability should be 100% but is 99%. Can't calculate. Please update the probabilities. Outcome name is required, please enter a value.";
-    const { getByText, getByDisplayValue } = renderIt();
-
-    const name = getByDisplayValue('test: heads');
-
-    fireEvent.change(name, {
-      target: { value: '' },
-    });
-    const inputProbability = getByDisplayValue('22');
-
-    fireEvent.change(inputProbability, {
-      target: { value: '21' },
-    });
-
-    expect(getByText(expectedError)).toBeVisible();
-  });
+  //       const savebutton =
+  //         lastRenderResult.getByDisplayValue('Save');
+  //       expect(savebutton).toBeDisabled();
+  //     });
+  //   }
+  // );
 
   it('hides the title when requested', () => {
     const { queryByText } = render(
