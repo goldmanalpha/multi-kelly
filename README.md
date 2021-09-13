@@ -6,6 +6,10 @@ widget for calculating and visualizing [kelly criterion](https://en.wikipedia.or
 
 ## Todo / Roadmap
 
+name required -- doesn't work on init
+
+save action not working
+
 [Add Product Tour](https://blog.bitsrc.io/7-awesome-javascript-web-app-tour-libraries-6b5d220fb862)
 Intro.js
 
@@ -14,6 +18,8 @@ show in github pages
 release on npm
 
 improve styling / configurable styling
+
+make responsive
 
 ## coding style
 

@@ -27,7 +27,7 @@ const App = () => {
   ) => {
     const fullSummary = {
       ...summaries[selectedSummaryIdx],
-      scenarioDetails: summary.scenarioDetails,
+      scenarioDetails: summary.scenarioOutcomes,
     };
 
     setSummaries(
@@ -39,13 +39,13 @@ const App = () => {
     );
   };
 
-  const startScenario =
-    summaries[selectedSummaryIdx].scenarioDetails;
+  const selectedOutcomes =
+    summaries[selectedSummaryIdx].scenarioOutcomes;
   return (
     <div>
       <KellyEditor
         showHeader={true}
-        startScenario={startScenario}
+        startScenarioOutcomes={selectedOutcomes}
         saveCallback={saveHandler}
       />
       <ScenarioChooser

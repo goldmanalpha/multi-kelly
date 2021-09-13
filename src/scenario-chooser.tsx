@@ -10,13 +10,13 @@ import {
   Typography,
 } from '@material-ui/core';
 import React, { useState } from 'react';
-import { ScenarioData } from './scenario-detail';
+import { ScenarioOutcome } from './scenario-detail';
 
 export interface ScenarioSummary {
   title: string;
   betPct?: number;
   expectedPayoff?: number;
-  scenarioDetails: ScenarioData[];
+  scenarioOutcomes: ScenarioOutcome[];
 }
 
 interface Props {
@@ -26,7 +26,7 @@ interface Props {
   selectedIndex: number;
 }
 
-const scenarioDetailsUi = (data: ScenarioData[]) => {
+const scenarioDetailsUi = (data: ScenarioOutcome[]) => {
   return (
     <TableContainer component={Paper}>
       <Table size="small">
@@ -111,7 +111,7 @@ const ScenarioChooser = ({
                     </TableCell>
                     <TableCell>
                       {scenarioDetailsUi(
-                        summary.scenarioDetails
+                        summary.scenarioOutcomes
                       )}
                     </TableCell>
                   </TableRow>
@@ -159,7 +159,9 @@ const ScenarioChooser = ({
                   </TableCell>
 
                   <TableCell>
-                    {scenarioDetailsUi(sum.scenarioDetails)}
+                    {scenarioDetailsUi(
+                      sum.scenarioOutcomes
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

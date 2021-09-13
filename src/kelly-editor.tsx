@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ScenarioDetail, {
   numericScenarioDataFields,
-  ScenarioData,
+  ScenarioOutcome,
 } from './scenario-detail';
 import { AddCircleOutline } from '@material-ui/icons';
 import './kelly.scss';
@@ -19,7 +19,7 @@ w.React2 = require('react');
 console.log('React Compare', w.React1 === w.React2);
 
 interface Props {
-  startScenario: ScenarioData[];
+  startScenarioOutcomes: ScenarioOutcome[];
   showHeader?: boolean;
   useCustomStyling?: boolean;
   saveCallback?: (
@@ -28,30 +28,68 @@ interface Props {
 }
 
 const getTotalProbabilityPct = (
-  scenarios: ScenarioData[]
-) =>
-  _.sum(scenarios.map((s) => s.probabilityPct || 0)) || 0;
+  outcomes: ScenarioOutcome[]
+) => _.sum(outcomes.map((s) => s.probabilityPct || 0)) || 0;
 
-const validateSum100Pct = (scenarios: ScenarioData[]) =>
-  Math.abs(getTotalProbabilityPct(scenarios) - 100) < 0.01;
+const validateSum100Pct = (outcomes: ScenarioOutcome[]) =>
+  Math.abs(getTotalProbabilityPct(outcomes) - 100) < 0.01;
 
-const validate = (scenarios: ScenarioData[]) => {
-  const allGood = scenarios.every(
-    (s) =>
-      typeof s.probabilityPct === 'number' &&
-      typeof s.expectedReturnPct === 'number' &&
-      s.name
+const outcomeErrorString = (
+  outcomes: ScenarioOutcome[]
+) => {
+  const requiredFieldsValid = outcomes.reduce(
+    (a, c) => ({
+      probabilityPct:
+        a.probabilityPct &&
+        typeof c.probabilityPct === 'number',
+      expectedReturnPct:
+        a.expectedReturnPct &&
+        typeof c.expectedReturnPct === 'number',
+      name: a.name && !!c.name,
+    }),
+    {
+      probabilityPct: true,
+      expectedReturnPct: true,
+      name: true,
+    }
   );
 
-  return (
-    allGood &&
-    scenarios.length > 0 &&
-    validateSum100Pct(scenarios)
-  );
+  const totalProbabilityPct =
+    getTotalProbabilityPct(outcomes);
+
+  const errorStrings = [];
+  if (!validateSum100Pct(outcomes)) {
+    errorStrings.push(`Total probability should be 100% but is 
+      ${_.round(totalProbabilityPct, 2)}%. 
+      Can't calculate. Please update the probabilities.`);
+
+    const requiredErrorStrings = {
+      probabilityPct: 'Percent probability',
+      expectedReturnPct: 'Expected return (percent)',
+      name: 'Outcome name',
+    };
+
+    const enterErrStrings = Object.entries(
+      requiredFieldsValid
+    )
+      .filter(([k, v]) => !v)
+      .map(
+        ([k]) =>
+          `${
+            requiredErrorStrings[
+              k as keyof typeof requiredErrorStrings
+            ]
+          } is required, please enter a value.`
+      );
+
+    errorStrings.push(...enterErrStrings);
+
+    return errorStrings.join(' ');
+  }
 };
 
 const KellyEditor = ({
-  startScenario,
+  startScenarioOutcomes: startScenario,
   showHeader,
   useCustomStyling,
   saveCallback,
@@ -61,39 +99,40 @@ const KellyEditor = ({
   const [kellyResult, setKellyResult] = useState(
     null as KellyResult | null
   );
-  const [canCalc, setCanCalc] = useState(
-    validate(startScenario)
+  const [outcomeErrString, setOutcomeErrString] = useState(
+    outcomeErrorString(startScenario)
   );
   const [showErrors, setShowErrors] = useState(false);
 
-  const [startCount, setStartCount] = useState(0);
+  const [changeCounter, setChangeCounter] = useState(0);
+
+  const doRecalc = () => setChangeCounter((s) => s + 1);
 
   useEffect(() => {
     setScenarios(startScenario);
-    const canCalc = validate(startScenario);
-    setCanCalc(canCalc);
-    setStartCount(startCount + 1);
+    setOutcomeErrString(outcomeErrorString(startScenario));
+    doRecalc();
     setKellyResult(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startScenario]);
 
   useEffect(() => {
-    if (canCalc) {
+    if (!outcomeErrString) {
       tryCalculate();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startCount, canCalc]);
+  }, [changeCounter, outcomeErrString]);
 
-  const addScenario = () => {
+  const addOutcome = () => {
     setScenarios([...scenarios, {}]);
     setKellyResult(null);
   };
 
   const updateScenario = (
     index: number,
-    scenario: ScenarioData | null,
-    updateField: keyof ScenarioData | null
+    scenario: ScenarioOutcome | null,
+    updateField: keyof ScenarioOutcome | null
   ) => {
     const newScenarios = replaceItem(
       scenarios,
@@ -102,18 +141,19 @@ const KellyEditor = ({
     );
 
     setScenarios(newScenarios);
-    setCanCalc(validate(newScenarios));
+    setOutcomeErrString(outcomeErrorString(newScenarios));
 
     if (
       numericScenarioDataFields.includes(updateField!) ||
       scenario === null
     ) {
       setKellyResult(null);
+      doRecalc();
     }
   };
 
   const tryCalculate = () => {
-    if (canCalc) {
+    if (!outcomeErrString) {
       const newKellyResult = calcKellyBetSize(
         scenarios.map((s) => ({
           probability: s.probabilityPct! / 100,
@@ -132,16 +172,13 @@ const KellyEditor = ({
   const handleSave = () => {
     saveCallback!({
       ...kellyResult,
-      scenarioDetails: scenarios,
+      scenarioOutcomes: scenarios,
     });
   };
 
-  const totalProbabilityPct =
-    getTotalProbabilityPct(scenarios);
-
   return (
     <div
-      className={classNames('kelly-editor', {
+      className={classNames('kelly-editor-widget', {
         'lib-styling': !useCustomStyling,
       })}
     >
@@ -151,44 +188,13 @@ const KellyEditor = ({
         </Typography>
       )}
       <div className="scenarioManager">
-        <span title="add scenario" className="add-scenario">
-          <AddCircleOutline onClick={addScenario} />
-        </span>
-        <Button
-          variant="outlined"
-          onClick={tryCalculate}
-          color={canCalc ? 'primary' : 'secondary'}
-          title={
-            canCalc
-              ? 'ready'
-              : `fix scenarios. ${
-                  showErrors ? '' : ' click to see errors'
-                }`
-          }
-        >
-          Calculate
-        </Button>
-        {!validateSum100Pct(scenarios) && (
-          <Typography color="secondary">
-            Total probability should be 100% but is
-            {_.round(totalProbabilityPct, 2)}%.{' '}
-            <div>
-              Can't calculate. Please update the
-              probabilities.
-            </div>
-          </Typography>
-        )}
-        {kellyResult && (
-          <div className="results">
-            {saveCallback && (
-              <Button
-                onClick={handleSave}
-                variant="outlined"
-                color="primary"
-              >
-                Save
-              </Button>
-            )}
+        <div className="results">
+          {outcomeErrString && (
+            <Typography color="secondary">
+              {outcomeErrString}
+            </Typography>
+          )}
+          {kellyResult && (
             <div>
               <Typography>
                 kelly bet size: {kellyResult.betPct}%
@@ -202,21 +208,34 @@ const KellyEditor = ({
                 %
               </Typography>
             </div>
-          </div>
-        )}
+          )}
+          {saveCallback && (
+            <Button
+              onClick={handleSave}
+              variant="contained"
+              color="primary"
+              disabled={!!outcomeErrString}
+            >
+              Save
+            </Button>
+          )}
+        </div>
       </div>
 
-      <ol className="scenarios-container">
+      <ol className="outcomes-container">
         {scenarios.map((s, i) => (
           <li key={i}>
             <ScenarioDetail
               {...s}
               showErrors={showErrors}
-              updateCallback={updateScenario.bind(this, i)}
+              updateCallback={updateScenario.bind(null, i)}
             />
           </li>
         ))}
       </ol>
+      <span title="add outcome" className="add-outcome">
+        <AddCircleOutline onClick={addOutcome} />
+      </span>
     </div>
   );
 };

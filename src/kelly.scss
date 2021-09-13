@@ -1,26 +1,41 @@
-.kelly-editor.lib-styling {
-  li {
-    list-style: none;
-  }
+$indent: 2em;
 
-  .scenarioManager {
-    display: flex;
-    .add-scenario {
-      color: green;
+.kelly-editor-widget {
+  margin-bottom: 3em;
+
+  &.lib-styling {
+    li {
+      list-style: none;
     }
-  }
 
-  button {
-    margin-left: 1em;
-    margin-right: 1em;
-  }
-
-  .results {
-    display: flex;
+    .scenarioManager {
+      display: flex;
+    }
 
     button {
+      margin-left: 1em;
       margin-right: 1em;
     }
+
+    .results {
+      max-width: 48em;
+      width: 100%;
+
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        margin-right: 1em;
+        max-height: 2.5em;
+      }
+    }
+  }
+  .outcomes-container {
+    padding-left: $indent;
+  }
+  .add-outcome {
+    color: green;
+    padding-left: $indent;
   }
 }
 
