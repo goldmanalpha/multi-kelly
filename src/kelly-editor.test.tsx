@@ -3,7 +3,7 @@ import {
   render,
   RenderResult,
 } from '@testing-library/react';
-import KellyEditor from './kelly-editor';
+import KellyEditor, { Props } from './kelly-editor';
 import React from 'react';
 
 const testData = () => ({
@@ -18,7 +18,7 @@ const testData = () => ({
     {
       name: 'test: tails',
       probabilityPct: 78,
-      expectedReturnPct: -99,
+      expectedReturnPct: -25,
     },
   ],
 });
@@ -27,11 +27,15 @@ const titleText = 'Multi Kelly Criterion Calculator';
 
 let lastRenderResult: RenderResult;
 
-const renderIt = (useCallback: boolean = false) =>
+const renderIt = (
+  useCallback: boolean = false,
+  options: Partial<Props> = {}
+) =>
   (lastRenderResult = render(
     <KellyEditor
       startScenarioOutcomes={testData().scenarioOutcomes}
       saveCallback={useCallback ? () => {} : undefined}
+      {...options}
     />
   ));
 
@@ -140,6 +144,9 @@ describe('kelly editor', () => {
 
   errorChecks();
 
+  const getSaveButton = () =>
+    lastRenderResult.getByText('Save').closest('button');
+
   errorChecks(
     'set save button disabled',
     true,
@@ -147,22 +154,37 @@ describe('kelly editor', () => {
       it(`${name}`, () => {
         fun();
 
-        const savebutton = lastRenderResult
-          .getByText('Save')
-          .closest('button');
-        expect(savebutton).toBeDisabled();
+        expect(getSaveButton()).toBeDisabled();
       });
     }
   );
 
   it('hides the title when requested', () => {
-    const { queryByText } = render(
-      <KellyEditor
-        startScenarioOutcomes={testData().scenarioOutcomes}
-        showHeader={false}
-      />
-    );
+    const { queryByText } = renderIt(true, {
+      showHeader: false,
+    });
 
     expect(queryByText(titleText)).toBeNull();
+  });
+
+  it('calls the save callback', (done) => {
+    renderIt(true, {
+      saveCallback: (summary) => {
+        expect(summary.scenarioOutcomes).toEqual(
+          testData().scenarioOutcomes
+        );
+        expect(summary.graph.length).toBe(101);
+
+        expect(summary).toEqual(
+          expect.objectContaining({
+            betPct: 53.3,
+            expectedPayoff: 1.0637941932867376,
+          })
+        );
+        done();
+      },
+    });
+
+    fireEvent.click(getSaveButton()!);
   });
 });

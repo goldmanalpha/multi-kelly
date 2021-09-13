@@ -18,12 +18,13 @@ const w = window as any;
 w.React2 = require('react');
 console.log('React Compare', w.React1 === w.React2);
 
-interface Props {
+export interface Props {
   startScenarioOutcomes: ScenarioOutcome[];
   showHeader?: boolean;
   useCustomStyling?: boolean;
   saveCallback?: (
-    summary: Omit<ScenarioSummary, 'title'>
+    summary: Pick<KellyResult, 'graph'> &
+      Omit<ScenarioSummary, 'title'>
   ) => void;
 }
 
@@ -175,7 +176,7 @@ const KellyEditor = ({
 
   const handleSave = () => {
     saveCallback!({
-      ...kellyResult,
+      ...kellyResult!,
       scenarioOutcomes: outcomes,
     });
   };

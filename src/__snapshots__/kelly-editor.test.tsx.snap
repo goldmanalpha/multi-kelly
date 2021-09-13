@@ -22,7 +22,7 @@ exports[`kelly editor renders / displays submitted scenario -- with save button 
             class="MuiTypography-root MuiTypography-body1"
           >
             kelly bet size: 
-            0
+            53.3
             %
           </p>
           <p
@@ -30,7 +30,7 @@ exports[`kelly editor renders / displays submitted scenario -- with save button 
           >
             expected return:
              
-            0
+            6.4
             %
           </p>
         </div>
@@ -268,7 +268,7 @@ exports[`kelly editor renders / displays submitted scenario -- with save button 
                   name="expectedReturnPct"
                   required=""
                   type="number"
-                  value="-99"
+                  value="-25"
                 />
                 <div
                   class="MuiInputAdornment-root MuiInputAdornment-positionEnd"
@@ -391,7 +391,7 @@ exports[`kelly editor renders / displays submitted scenario -- without save butt
             class="MuiTypography-root MuiTypography-body1"
           >
             kelly bet size: 
-            0
+            53.3
             %
           </p>
           <p
@@ -399,7 +399,7 @@ exports[`kelly editor renders / displays submitted scenario -- without save butt
           >
             expected return:
              
-            0
+            6.4
             %
           </p>
         </div>
@@ -623,7 +623,7 @@ exports[`kelly editor renders / displays submitted scenario -- without save butt
                   name="expectedReturnPct"
                   required=""
                   type="number"
-                  value="-99"
+                  value="-25"
                 />
                 <div
                   class="MuiInputAdornment-root MuiInputAdornment-positionEnd"
