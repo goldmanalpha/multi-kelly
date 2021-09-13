@@ -56,7 +56,7 @@
     "todo": "rmdir /S/Q dist & ",
     "build-app": "react-scripts build",
     "test": "react-scripts test  --watchAll=false",
-    "test-watch": "react-scripts test",
+    "test-watch": "react-scripts test --verbose",
     "test-watch-debug": "jest --watch  --verbose --runInBand",
     "x eject": "react-scripts eject"
   },

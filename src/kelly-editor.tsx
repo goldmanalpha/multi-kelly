@@ -62,45 +62,47 @@ const outcomeErrorString = (
     errorStrings.push(`Total probability should be 100% but is 
       ${_.round(totalProbabilityPct, 2)}%. 
       Can't calculate. Please update the probabilities.`);
-
-    const requiredErrorStrings = {
-      probabilityPct: 'Percent probability',
-      expectedReturnPct: 'Expected return (percent)',
-      name: 'Outcome name',
-    };
-
-    const enterErrStrings = Object.entries(
-      requiredFieldsValid
-    )
-      .filter(([k, v]) => !v)
-      .map(
-        ([k]) =>
-          `${
-            requiredErrorStrings[
-              k as keyof typeof requiredErrorStrings
-            ]
-          } is required, please enter a value.`
-      );
-
-    errorStrings.push(...enterErrStrings);
-
-    return errorStrings.join(' ');
   }
+
+  const requiredErrorStrings = {
+    probabilityPct: 'Percent probability',
+    expectedReturnPct: 'Expected return (percent)',
+    name: 'Outcome name',
+  };
+
+  const enterErrStrings = Object.entries(
+    requiredFieldsValid
+  )
+    .filter(([k, v]) => !v)
+    .map(
+      ([k]) =>
+        `${
+          requiredErrorStrings[
+            k as keyof typeof requiredErrorStrings
+          ]
+        } is required, please enter a value.`
+    );
+
+  errorStrings.push(...enterErrStrings);
+
+  return errorStrings.join(' ');
 };
 
 const KellyEditor = ({
-  startScenarioOutcomes: startScenario,
-  showHeader,
+  startScenarioOutcomes,
+  showHeader = true,
   useCustomStyling,
   saveCallback,
 }: Props) => {
-  const [scenarios, setScenarios] = useState(startScenario);
+  const [outcomes, setOutcomes] = useState(
+    startScenarioOutcomes
+  );
 
   const [kellyResult, setKellyResult] = useState(
     null as KellyResult | null
   );
   const [outcomeErrString, setOutcomeErrString] = useState(
-    outcomeErrorString(startScenario)
+    outcomeErrorString(startScenarioOutcomes)
   );
   const [showErrors, setShowErrors] = useState(false);
 
@@ -109,12 +111,14 @@ const KellyEditor = ({
   const doRecalc = () => setChangeCounter((s) => s + 1);
 
   useEffect(() => {
-    setScenarios(startScenario);
-    setOutcomeErrString(outcomeErrorString(startScenario));
+    setOutcomes(startScenarioOutcomes);
+    setOutcomeErrString(
+      outcomeErrorString(startScenarioOutcomes)
+    );
     doRecalc();
     setKellyResult(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startScenario]);
+  }, [startScenarioOutcomes]);
 
   useEffect(() => {
     if (!outcomeErrString) {
@@ -125,27 +129,27 @@ const KellyEditor = ({
   }, [changeCounter, outcomeErrString]);
 
   const addOutcome = () => {
-    setScenarios([...scenarios, {}]);
+    setOutcomes([...outcomes, {}]);
     setKellyResult(null);
   };
 
   const updateScenario = (
     index: number,
-    scenario: ScenarioOutcome | null,
+    outcome: ScenarioOutcome | null,
     updateField: keyof ScenarioOutcome | null
   ) => {
-    const newScenarios = replaceItem(
-      scenarios,
+    const newOutcomes = replaceItem(
+      outcomes,
       index,
-      scenario
+      outcome
     );
 
-    setScenarios(newScenarios);
-    setOutcomeErrString(outcomeErrorString(newScenarios));
+    setOutcomes(newOutcomes);
+    setOutcomeErrString(outcomeErrorString(newOutcomes));
 
     if (
       numericScenarioDataFields.includes(updateField!) ||
-      scenario === null
+      outcome === null
     ) {
       setKellyResult(null);
       doRecalc();
@@ -155,7 +159,7 @@ const KellyEditor = ({
   const tryCalculate = () => {
     if (!outcomeErrString) {
       const newKellyResult = calcKellyBetSize(
-        scenarios.map((s) => ({
+        outcomes.map((s) => ({
           probability: s.probabilityPct! / 100,
           payoffReturn: s.expectedReturnPct! / 100,
         }))
@@ -172,7 +176,7 @@ const KellyEditor = ({
   const handleSave = () => {
     saveCallback!({
       ...kellyResult,
-      scenarioOutcomes: scenarios,
+      scenarioOutcomes: outcomes,
     });
   };
 
@@ -183,7 +187,7 @@ const KellyEditor = ({
       })}
     >
       {showHeader && (
-        <Typography variant="h2">
+        <Typography variant="h3" component="h1">
           Multi Kelly Criterion Calculator
         </Typography>
       )}
@@ -223,7 +227,7 @@ const KellyEditor = ({
       </div>
 
       <ol className="outcomes-container">
-        {scenarios.map((s, i) => (
+        {outcomes.map((s, i) => (
           <li key={i}>
             <ScenarioDetail
               {...s}

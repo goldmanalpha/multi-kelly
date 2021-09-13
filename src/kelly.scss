@@ -1,9 +1,9 @@
 $indent: 2em;
 
 .kelly-editor-widget {
-  margin-bottom: 3em;
-
   &.lib-styling {
+    margin-bottom: 3em;
+
     li {
       list-style: none;
     }
@@ -29,13 +29,13 @@ $indent: 2em;
         max-height: 2.5em;
       }
     }
-  }
-  .outcomes-container {
-    padding-left: $indent;
-  }
-  .add-outcome {
-    color: green;
-    padding-left: $indent;
+    .outcomes-container {
+      padding-left: $indent;
+    }
+    .add-outcome {
+      color: green;
+      padding-left: $indent;
+    }
   }
 }
 

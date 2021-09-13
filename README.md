@@ -4,9 +4,17 @@
 
 widget for calculating and visualizing [kelly criterion](https://en.wikipedia.org/wiki/Kelly_criterion) results for bets with multiple outcome probabilities of varying payoffs.
 
-## Todo / Roadmap
+## usage
 
-name required -- doesn't work on init
+### options
+
+#### KellyEditor
+
+KellyEditor
+showHeader: false = hide the header
+useCustomStyling: true = turns off most styling from the [kelly.scss](.\src\kelly.scss)
+
+## Todo / Roadmap
 
 save action not working
 
