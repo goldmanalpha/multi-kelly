@@ -1,0 +1,356 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`kelly editor renders / displays submitted scenario 1`] = `
+<div>
+  <div
+    class="kelly-editor-widget lib-styling"
+  >
+    <h1
+      class="MuiTypography-root MuiTypography-h3"
+    >
+      Multi Kelly Criterion Calculator
+    </h1>
+    <div
+      class="scenarioManager"
+    >
+      <div
+        class="results"
+      >
+        
+        <div>
+          <p
+            class="MuiTypography-root MuiTypography-body1"
+          >
+            kelly bet size: 
+            0
+            %
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1"
+          >
+            expected return:
+             
+            0
+            %
+          </p>
+        </div>
+      </div>
+    </div>
+    <ol
+      class="outcomes-container"
+    >
+      <li>
+        <div
+          class="scenario lib-styling"
+        >
+          <div
+            class="MuiFormControl-root"
+          >
+            <span
+              title="likelihood of occurence from 0 - 100"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+                data-shrink="true"
+                for="mui-pct-1"
+              >
+                Prob Pct*
+              </label>
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline percent-input MuiInputBase-formControl MuiInput-formControl MuiInputBase-adornedEnd"
+                required=""
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd"
+                  id="mui-pct-1"
+                  name="probabilityPct"
+                  required=""
+                  type="number"
+                  value="22"
+                />
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+                  >
+                    %
+                  </p>
+                </div>
+              </div>
+            </span>
+          </div>
+          <div
+            class="MuiFormControl-root"
+          >
+            <span
+              title="Expected Payoff Pct: gain/loss expected for this scenario
+100 = doubling/getting back amount bet twice.
+0 = no gain/loss -- just return of amount bet
+-100 = losing amount bet."
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+                data-shrink="true"
+              >
+                Exp Gain*
+              </label>
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline percent-input MuiInputBase-formControl MuiInput-formControl MuiInputBase-adornedEnd"
+                required=""
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd"
+                  name="expectedReturnPct"
+                  required=""
+                  type="number"
+                  value="225"
+                />
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+                  >
+                    %
+                  </p>
+                </div>
+              </div>
+            </span>
+          </div>
+          <div
+            class="MuiFormControl-root MuiTextField-root name"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled Mui-required Mui-required"
+              data-shrink="true"
+            >
+              Name
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 
+                *
+              </span>
+            </label>
+            <div
+              class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiInput-input"
+                name="name"
+                required=""
+                type="text"
+                value="test: heads"
+              />
+            </div>
+          </div>
+          <div
+            class="MuiFormControl-root MuiTextField-root description"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
+              data-shrink="false"
+            >
+              Description
+            </label>
+            <div
+              class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiInput-input"
+                name="description"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+          <span
+            class="delete-scenario"
+            title="delete outcome"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+              />
+            </svg>
+          </span>
+        </div>
+      </li>
+      <li>
+        <div
+          class="scenario lib-styling"
+        >
+          <div
+            class="MuiFormControl-root"
+          >
+            <span
+              title="likelihood of occurence from 0 - 100"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+                data-shrink="true"
+                for="mui-pct-2"
+              >
+                Prob Pct*
+              </label>
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline percent-input MuiInputBase-formControl MuiInput-formControl MuiInputBase-adornedEnd"
+                required=""
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd"
+                  id="mui-pct-2"
+                  name="probabilityPct"
+                  required=""
+                  type="number"
+                  value="78"
+                />
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+                  >
+                    %
+                  </p>
+                </div>
+              </div>
+            </span>
+          </div>
+          <div
+            class="MuiFormControl-root"
+          >
+            <span
+              title="Expected Payoff Pct: gain/loss expected for this scenario
+100 = doubling/getting back amount bet twice.
+0 = no gain/loss -- just return of amount bet
+-100 = losing amount bet."
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+                data-shrink="true"
+              >
+                Exp Gain*
+              </label>
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline percent-input MuiInputBase-formControl MuiInput-formControl MuiInputBase-adornedEnd"
+                required=""
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd"
+                  name="expectedReturnPct"
+                  required=""
+                  type="number"
+                  value="-99"
+                />
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+                  >
+                    %
+                  </p>
+                </div>
+              </div>
+            </span>
+          </div>
+          <div
+            class="MuiFormControl-root MuiTextField-root name"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled Mui-required Mui-required"
+              data-shrink="true"
+            >
+              Name
+              <span
+                aria-hidden="true"
+                class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+              >
+                 
+                *
+              </span>
+            </label>
+            <div
+              class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiInput-input"
+                name="name"
+                required=""
+                type="text"
+                value="test: tails"
+              />
+            </div>
+          </div>
+          <div
+            class="MuiFormControl-root MuiTextField-root description"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
+              data-shrink="false"
+            >
+              Description
+            </label>
+            <div
+              class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiInput-input"
+                name="description"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+          <span
+            class="delete-scenario"
+            title="delete outcome"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+              />
+            </svg>
+          </span>
+        </div>
+      </li>
+    </ol>
+    <span
+      class="add-outcome"
+      title="add outcome"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+        />
+      </svg>
+    </span>
+  </div>
+</div>
+`;

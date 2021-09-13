@@ -1,11 +1,6 @@
-import {
-  fireEvent,
-  render,
-  screen,
-} from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import KellyEditor from './kelly-editor';
 import React from 'react';
-import { assert } from 'console';
 
 const testData = () => ({
   title: 'test: Generous Coin Flip',
@@ -35,7 +30,8 @@ const renderIt = () =>
 
 describe('kelly editor', () => {
   it('renders / displays submitted scenario', () => {
-    const { getByText, getByDisplayValue } = renderIt();
+    const { getByText, getByDisplayValue, container } =
+      renderIt();
 
     const title = getByText(titleText);
 
@@ -60,6 +56,8 @@ describe('kelly editor', () => {
     });
 
     expect(elementTests).toBe(6);
+
+    expect(container).toMatchSnapshot();
   });
 
   it("shows error when percentages don't add to 100", () => {
