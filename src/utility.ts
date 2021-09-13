@@ -1,14 +1,15 @@
 export function replaceItem<T>(
   items: T[],
   index: number,
-  scenario: T | null
+  item: T | null
 ): T[] {
-  const [start, end] = [
-    [...items.slice(0, index)],
-    [...items.slice(index + 1)],
-  ];
-  const newItems = scenario
-    ? [...start, scenario, ...end]
-    : [...start, ...end];
-  return newItems;
+  const newArray = [...items];
+
+  newArray.splice(index, 1);
+
+  if (item) {
+    newArray.splice(index, 0, item);
+  }
+
+  return newArray;
 }

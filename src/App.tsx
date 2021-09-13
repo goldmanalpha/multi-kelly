@@ -27,16 +27,15 @@ const App = () => {
   ) => {
     const fullSummary = {
       ...summaries[selectedSummaryIdx],
-      scenarioDetails: summary.scenarioOutcomes,
+      scenarioOutcomes: summary.scenarioOutcomes,
     };
 
-    setSummaries(
-      replaceItem(
-        summaries,
-        selectedSummaryIdx,
-        fullSummary
-      )
+    const updatedArray = replaceItem(
+      summaries,
+      selectedSummaryIdx,
+      fullSummary
     );
+    setSummaries(updatedArray);
   };
 
   const selectedOutcomes =

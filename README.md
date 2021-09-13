@@ -16,18 +16,16 @@ useCustomStyling: true = turns off most styling from the [kelly.scss](.\src\kell
 
 ## Todo / Roadmap
 
-save action not working
-
 [Add Product Tour](https://blog.bitsrc.io/7-awesome-javascript-web-app-tour-libraries-6b5d220fb862)
 Intro.js
-
-show in github pages
 
 release on npm
 
 improve styling / configurable styling
 
 make responsive
+
+test save action shows in Selection UI
 
 ## coding style
 
