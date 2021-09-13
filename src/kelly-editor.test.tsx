@@ -37,7 +37,7 @@ const renderIt = (useCallback: boolean = false) =>
 
 describe('kelly editor', () => {
   const simpleDisplay = (useCallback: boolean) => {
-    const { getByText, getByDisplayValue, container } =
+    const { getByText, getByDisplayValue } =
       renderIt(useCallback);
 
     const title = getByText(titleText);
@@ -76,19 +76,21 @@ describe('kelly editor', () => {
 
     expect(
       lastRenderResult.queryByText('Save')
-    ).toBeDefined();
+    ).toBeEnabled();
     expect(lastRenderResult.container).toMatchSnapshot();
   });
 
   const errorChecks = (
     modifier: string = '',
+    useCallback: boolean = false,
     it: (name: string, fn: () => void) => void = global.it
   ) =>
     describe(`errors ${modifier}`, () => {
       it("shows error when percentages don't add to 100", () => {
         const expectedError =
           "Total probability should be 100% but is 99%. Can't calculate. Please update the probabilities.";
-        const { getByText, getByDisplayValue } = renderIt();
+        const { getByText, getByDisplayValue } =
+          renderIt(useCallback);
 
         const inputProbability = getByDisplayValue('22');
 
@@ -103,7 +105,8 @@ describe('kelly editor', () => {
         const expectedError =
           'Outcome name is required, please enter a value.';
 
-        const { getByText, getByDisplayValue } = renderIt();
+        const { getByText, getByDisplayValue } =
+          renderIt(useCallback);
 
         const name = getByDisplayValue('test: heads');
 
@@ -117,7 +120,8 @@ describe('kelly editor', () => {
       it('shows both name and percent errors', () => {
         const expectedError =
           "Total probability should be 100% but is 99%. Can't calculate. Please update the probabilities. Outcome name is required, please enter a value.";
-        const { getByText, getByDisplayValue } = renderIt();
+        const { getByDisplayValue, getByText } =
+          renderIt(useCallback);
 
         const name = getByDisplayValue('test: heads');
 
@@ -129,21 +133,27 @@ describe('kelly editor', () => {
         fireEvent.change(inputProbability, {
           target: { value: '21' },
         });
+
+        expect(getByText(expectedError)).toBeVisible();
       });
     });
 
-  // errorChecks(
-  //   'set save button disabled',
-  //   (name: string, fun: Function) => {
-  //     it(`${name}`, () => {
-  //       fun();
+  errorChecks();
 
-  //       const savebutton =
-  //         lastRenderResult.getByDisplayValue('Save');
-  //       expect(savebutton).toBeDisabled();
-  //     });
-  //   }
-  // );
+  errorChecks(
+    'set save button disabled',
+    true,
+    (name: string, fun: Function) => {
+      it(`${name}`, () => {
+        fun();
+
+        const savebutton = lastRenderResult
+          .getByText('Save')
+          .closest('button');
+        expect(savebutton).toBeDisabled();
+      });
+    }
+  );
 
   it('hides the title when requested', () => {
     const { queryByText } = render(
