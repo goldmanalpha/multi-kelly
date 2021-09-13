@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/multi-kelly/static/css/main.77f1a3cf.chunk.css",
+    "main.js": "/multi-kelly/static/js/main.e6f5afec.chunk.js",
+    "main.js.map": "/multi-kelly/static/js/main.e6f5afec.chunk.js.map",
+    "runtime-main.js": "/multi-kelly/static/js/runtime-main.aac35172.js",
+    "runtime-main.js.map": "/multi-kelly/static/js/runtime-main.aac35172.js.map",
+    "static/js/2.459c3759.chunk.js": "/multi-kelly/static/js/2.459c3759.chunk.js",
+    "static/js/2.459c3759.chunk.js.map": "/multi-kelly/static/js/2.459c3759.chunk.js.map",
+    "index.html": "/multi-kelly/index.html",
+    "static/css/main.77f1a3cf.chunk.css.map": "/multi-kelly/static/css/main.77f1a3cf.chunk.css.map",
+    "static/js/2.459c3759.chunk.js.LICENSE.txt": "/multi-kelly/static/js/2.459c3759.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.aac35172.js",
+    "static/js/2.459c3759.chunk.js",
+    "static/css/main.77f1a3cf.chunk.css",
+    "static/js/main.e6f5afec.chunk.js"
+  ]
+}
