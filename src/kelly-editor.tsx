@@ -146,7 +146,9 @@ const KellyEditor = ({
       })}
     >
       {showHeader && (
-        <h1>Multi Kelly Criterion Calculator</h1>
+        <Typography variant="h2">
+          Multi Kelly Criterion Calculator
+        </Typography>
       )}
       <div className="scenarioManager">
         <span title="add scenario" className="add-scenario">

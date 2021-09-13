@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
   Button,
+  Typography,
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import { ScenarioData } from './scenario-detail';
@@ -79,51 +80,54 @@ const ScenarioChooser = ({
   const SingleSummaryUi = ({
     index,
   }: {
-    index: number | null;
+    index: number;
   }) => {
-    const summary = summaries[index || 0];
+    const summary = summaries[index];
     return (
-      <>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={toggleSelecting}
-          disabled={isSelecting}
-        >
-          Select a scenario
-        </Button>
-
-        {index !== null && !isSelecting && (
-          <TableContainer
-            component={Paper}
-            className="lib-styling scenario-chooser-list"
-          >
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>scenarios</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow
-                  key={index}
-                  onClick={() => handleClick(index)}
-                >
-                  <TableCell component="th" scope="row">
-                    {summary.title}
-                  </TableCell>
-                  <TableCell>
-                    {scenarioDetailsUi(
-                      summary.scenarioDetails
-                    )}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+      <div className="scenario-chooser-widget">
+        {!isSelecting && (
+          <>
+            <Typography variant="h4" component="h2">
+              Selected Scenario
+            </Typography>
+            <TableContainer
+              component={Paper}
+              className="lib-styling scenario-chooser-list"
+            >
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell>scenarios</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow
+                    key={index}
+                    onClick={() => handleClick(index)}
+                  >
+                    <TableCell component="th" scope="row">
+                      {summary.title}
+                    </TableCell>
+                    <TableCell>
+                      {scenarioDetailsUi(
+                        summary.scenarioDetails
+                      )}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={toggleSelecting}
+            >
+              Select a scenario
+            </Button>
+          </>
         )}
-      </>
+      </div>
     );
   };
 

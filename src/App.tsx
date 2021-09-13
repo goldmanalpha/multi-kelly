@@ -25,43 +25,33 @@ const App = () => {
   const saveHandler = (
     summary: Omit<ScenarioSummary, 'title'>
   ) => {
-    if (selectedSummaryIdx) {
-      const fullSummary = {
-        ...summaries[selectedSummaryIdx],
-        summary,
-      };
+    const fullSummary = {
+      ...summaries[selectedSummaryIdx],
+      scenarioDetails: summary.scenarioDetails,
+    };
 
-      setSummaries(
-        replaceItem(
-          summaries,
-          selectedSummaryIdx,
-          fullSummary
-        )
-      );
-    } else {
-      setSummaries([
-        ...summaries,
-        {
-          title: new Date().toLocaleString(),
-          ...summary,
-        },
-      ]);
-    }
+    setSummaries(
+      replaceItem(
+        summaries,
+        selectedSummaryIdx,
+        fullSummary
+      )
+    );
   };
 
   const startScenario =
     summaries[selectedSummaryIdx].scenarioDetails;
   return (
     <div>
-      <ScenarioChooser
-        summaries={summaries}
-        selectedCallback={handleScenarioSelection}
-        selectedIndex={selectedSummaryIdx}
-      />
       <KellyEditor
         showHeader={true}
         startScenario={startScenario}
         saveCallback={saveHandler}
+      />
+      <ScenarioChooser
+        summaries={summaries}
+        selectedCallback={handleScenarioSelection}
+        selectedIndex={selectedSummaryIdx}
       />
     </div>
   );

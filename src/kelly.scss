@@ -79,3 +79,11 @@
 .outer-container > tr:hover {
   background-color: lightgreen !important;
 }
+
+tr:last-child > td.MuiTableCell-root {
+  border-bottom: 0px;
+}
+
+.scenario-chooser-widget button {
+  margin-top: 1em;
+}
