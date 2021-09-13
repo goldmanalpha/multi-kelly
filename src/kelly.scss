@@ -4,8 +4,24 @@ $indent: 2em;
   &.lib-styling {
     margin-bottom: 3em;
 
+    ol {
+      min-width: 33em;
+      max-width: 48em;
+    }
     li {
       list-style: none;
+      display: flex;
+
+      .description {
+        min-width: 8em;
+        flex-grow: 1;
+      }
+
+      .name {
+        flex-grow: 1;
+        max-width: 8em;
+        flex-basis: 2em;
+      }
     }
 
     .scenarioManager {
@@ -47,6 +63,7 @@ $indent: 2em;
 
 .scenario.lib-styling {
   display: flex;
+  width: 100%;
 
   .percent-input {
     width: 5em;
@@ -72,10 +89,6 @@ $indent: 2em;
     .MuiInputAdornment-root.MuiInputAdornment-positionEnd {
       margin-left: 0em;
     }
-  }
-
-  .description {
-    width: 20em;
   }
 
   .MuiFormControl-root {
