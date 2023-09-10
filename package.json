@@ -55,6 +55,7 @@
     "yalc-pub": "yarn build && pushd dist && yalc publish --private & popd",
     "todo": "rmdir /S/Q dist & ",
     "build-app": "react-scripts build",
+    "build": "yarn run build-app && yarn run build-lib",
     "test": "react-scripts test  --watchAll=false --coverage",
     "test-watch": "react-scripts test --verbose",
     "test-watch-debug": "jest --watch  --verbose --runInBand",
