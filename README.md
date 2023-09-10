@@ -4,6 +4,27 @@
 
 widget for calculating and visualizing [kelly criterion](https://en.wikipedia.org/wiki/Kelly_criterion) results for bets with multiple outcome probabilities of varying payoffs.
 
+## usage
+
+### options
+
+#### KellyEditor
+
+KellyEditor
+showHeader: false = hide the header
+useCustomStyling: true = turns off most styling from the [kelly.scss](.\src\kelly.scss)
+
+## Todo / Roadmap
+
+[Add Product Tour](https://blog.bitsrc.io/7-awesome-javascript-web-app-tour-libraries-6b5d220fb862)
+[Intro.js](https://github.com/usablica/intro.js)
+
+release on npm
+
+improve styling / configurable styling
+
+test save action shows in Selection UI
+
 ## coding style
 
 [Basarat](https://basarat.gitbook.io/typescript/styleguide)
@@ -11,8 +32,3 @@ widget for calculating and visualizing [kelly criterion](https://en.wikipedia.or
 ### except
 
 file names kebab
-
-## Todo / Roadmap
-
-[Add Product Tour](https://blog.bitsrc.io/7-awesome-javascript-web-app-tour-libraries-6b5d220fb862)
-Intro.js

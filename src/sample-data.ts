@@ -4,7 +4,7 @@ export const sampleScenarioSummaries: ScenarioSummary[] = [
   {
     title: 'Generous Coin Flip',
 
-    scenarioDetails: [
+    scenarioOutcomes: [
       {
         name: 'heads',
         probabilityPct: 50,
@@ -19,7 +19,7 @@ export const sampleScenarioSummaries: ScenarioSummary[] = [
   },
   {
     title: 'Double or Nothing',
-    scenarioDetails: [
+    scenarioOutcomes: [
       {
         name: 'heads',
         probabilityPct: 50,
@@ -35,7 +35,7 @@ export const sampleScenarioSummaries: ScenarioSummary[] = [
   {
     title: 'Jelly Beans',
 
-    scenarioDetails: [
+    scenarioOutcomes: [
       {
         name: 'black',
         probabilityPct: 70,
@@ -58,7 +58,7 @@ export const sampleScenarioSummaries: ScenarioSummary[] = [
   {
     title: 'stock',
 
-    scenarioDetails: [
+    scenarioOutcomes: [
       {
         name: 'fraud',
         probabilityPct: 5,

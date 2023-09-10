@@ -12,30 +12,29 @@ import { AddCircleOutline } from '@material-ui/icons';
 import _ from 'lodash';
 import { InputPercent } from './mui/adorned-input';
 
-export interface ScenarioData {
+export interface ScenarioOutcome {
   name?: string;
   description?: string;
   probabilityPct?: number;
   expectedReturnPct?: number;
 }
-const scenarioDataFields: readonly (keyof ScenarioData)[] = [
-  'name',
-  'description',
-  'probabilityPct',
-  'expectedReturnPct',
-] as const;
+const scenarioDataFields: readonly (keyof ScenarioOutcome)[] =
+  [
+    'name',
+    'description',
+    'probabilityPct',
+    'expectedReturnPct',
+  ] as const;
 
-export const numericScenarioDataFields: readonly (keyof ScenarioData)[] = [
-  'probabilityPct',
-  'expectedReturnPct',
-] as const;
+export const numericScenarioDataFields: readonly (keyof ScenarioOutcome)[] =
+  ['probabilityPct', 'expectedReturnPct'] as const;
 
-export interface Props extends ScenarioData {
+export interface Props extends ScenarioOutcome {
   useCustomStyling?: boolean;
   showErrors: boolean;
   updateCallback: (
-    p: ScenarioData | null,
-    field: keyof ScenarioData | null
+    p: ScenarioOutcome | null,
+    field: keyof ScenarioOutcome | null
   ) => void;
 }
 
@@ -53,13 +52,12 @@ const ScenarioDetail = React.memo(
       event: React.ChangeEvent<HTMLInputElement>
     ) => {
       const fieldName = event.target
-        .name as keyof ScenarioData;
+        .name as keyof ScenarioOutcome;
       const value = event.target.value;
 
       if (scenarioDataFields.includes(fieldName)) {
-        const convert = numericScenarioDataFields.includes(
-          fieldName
-        );
+        const convert =
+          numericScenarioDataFields.includes(fieldName);
 
         updateCallback(
           {
@@ -107,7 +105,9 @@ const ScenarioDetail = React.memo(
           }}
         />
         <FormControl>
-          <span title="Expected Payoff Pct: gain/loss expected for this scenario&#10;100 = doubling/getting back amount bet twice.&#10;0 = no gain/loss -- just return of amount bet&#10;-100 = losing amount bet.">
+          <span
+            title="Expected Payoff Pct: gain/loss expected for this scenario&#10;100 = doubling/getting back amount bet twice.&#10;0 = no gain/loss -- just return of amount bet&#10;-100 = losing amount bet."
+          >
             <InputLabel error={expectedReturnPctError}>
               Exp Gain*
             </InputLabel>
@@ -147,7 +147,7 @@ const ScenarioDetail = React.memo(
           onChange={handleChange}
         />
         <span
-          title="delete scenario"
+          title="delete outcome"
           className="delete-scenario"
         >
           <AddCircleOutline
